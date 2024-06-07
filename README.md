@@ -47,7 +47,7 @@ step 4: Build from `.cpp` file
 g++ run.cpp -o run.exe
 ```
 ## Why pnpm? <a id='Why-pnpm'></a>
-We are using pnpm for this CLI because it have readable output messages and generates lock file in `.yml` format which is easy to interpret.
+We are using pnpm for this CLI because it have readable output messages and generates lock file in `.yaml` format which is easy to interpret.
 
 ## Rules
 some rules for contributions

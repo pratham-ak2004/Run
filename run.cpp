@@ -1,7 +1,8 @@
 #include <iostream>
 #include <getopt.h>
 
-#define VERSION "1.0.0"
+#define VERSION "1.0.1"
+#define GITHUB_LINK "https://github.com/pratham-ak2004/Run"
 
 using namespace std;
 
@@ -9,7 +10,7 @@ void display_help(char *argv[])
 {
     // General Message
     std::cout << "Run (V " << VERSION << ") A simple CLI tool for Windows with pnpm commands reduced to conditional flags." << std::endl;
-    std::cout << "How to install? Download the latest executable .exe file from Github and add it to you PATH of the system." << std::endl;
+    std::cout << "How to install? Download the latest executable .exe file from " << GITHUB_LINK << " and add it to you PATH of the system." << std::endl;
     std::cout << "Use multiple command flags to run them one after the other." << std::endl;
     std::cout << "[Important] Requires pnpm installed in the system. Install pnpm by running : winget install pnpm.pnpm" << std::endl
               << std::endl;
@@ -29,7 +30,7 @@ void display_help(char *argv[])
     // Install dependencies
     std::cout << "Mange dependencies:       [-i] Install dependencies" << std::endl;
     std::cout << "      -i                  : Run install script" << std::endl;
-    std::cout << "      -i <name>           : Install the dependency <name>" << std::endl
+    std::cout << "      -i <name>           : Install the dependency <name> [experimental]" << std::endl
               << std::endl;
 
     // Run dev server
@@ -47,9 +48,52 @@ void display_help(char *argv[])
     // Run prisma database
     std::cout << "Execute Database commandes:" << std::endl;
     std::cout << "      [Important]         Requires prisma installed in system or must be present as a dependency in your project" << std::endl;
-    std::cout << "      -d                  : Run prisma postinstall script" << std::endl;
+    std::cout << "      -d                  : Generate Prisma Client" << std::endl;
     std::cout << "      -P                  : Sync database with schema (prisma db push)" << std::endl
               << std::endl;
+}
+
+void install_dependencies(char *argv[])
+{
+    cout << "Installing dependencies" << endl;
+    system("pnpm install");
+}
+
+void run_dev_server(char *argv[])
+{
+    cout << "Running dev server" << endl;
+    system("pnpm dev");
+}
+
+void host_dev_server(char *argv[])
+{
+    cout << "Hosting dev server" << endl;
+    system("pnpm dev --host");
+}
+
+void build_project(char *argv[])
+{
+    cout << "Building project" << endl;
+    system("pnpm run build");
+}
+
+void preview_project(char *argv[])
+{
+    build_project(argv);
+    cout << "Running preview server" << endl;
+    system("pnpm run preview");
+}
+
+void run_prisma_postinstall(char *argv[])
+{
+    cout << "Syncing database with prisma schema" << endl;
+    system("pnpm prisma db push");
+}
+
+void run_prisma_generate_client(char *argv[])
+{
+    cout << "Generating Prisma Client" << endl;
+    system("pnpm prisma generate");
 }
 
 int main(int argc, char *argv[])
@@ -72,25 +116,25 @@ int main(int argc, char *argv[])
             display_help(argv);
             break;
         case 'i':
-            cout << "Installing dependencies" << endl;
+            install_dependencies(argv);
             break;
         case 'r':
-            cout << "Running dev server" << endl;
+            run_dev_server(argv);
             break;
         case 'R':
-            cout << "Hosting dev server" << endl;
+            host_dev_server(argv);
             break;
         case 'b':
-            cout << "Building project" << endl;
+            build_project(argv);
             break;
         case 'p':
-            cout << "Running preview server" << endl;
+            preview_project(argv);
             break;
         case 'd':
-            cout << "Run prisma postinstall script" << endl;
+            run_prisma_postinstall(argv);
             break;
         case 'P':
-            cout << "Sync database with prisma schema" << endl;
+            run_prisma_generate_client(argv);
             break;
         case 'v':
             printf("Run (V.%s)\n", VERSION);
